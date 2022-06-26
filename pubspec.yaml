@@ -50,6 +50,9 @@ dependencies:
   simple_animated_icon: ^1.1.0
   ntp: ^2.0.0
   delayed_display: ^2.0.0
+  video_player: ^2.4.5
+  file_picker: ^4.6.1
+
 
 
 dev_dependencies:

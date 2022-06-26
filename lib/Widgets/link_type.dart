@@ -81,6 +81,7 @@ class _LinkTypeState extends State<LinkType> {
                     widget.currentSelectedValue = newValue!;
                     // widget.onChanged!.call(widget.currentSelectedValue);
                     Provider.of<ApiService>(context, listen: false).mediaval = newValue;
+                    print(Provider.of<ApiService>(context, listen: false).mediaval);
                   });
                 },
                 items: LinkType.deviceTypes.map((String value) {

@@ -90,7 +90,7 @@ class ApiService extends ChangeNotifier {
   bool isloading = false;
   String answer = '';
   List list = [];
-  bool file = true;
+  bool Filemedia = true;
   String mediaval = 'Image';
 
   // GET
@@ -289,7 +289,7 @@ class ApiService extends ChangeNotifier {
           snapshot.ref.getDownloadURL().then((value) {
             List list = [];
             Map<String,dynamic> map = {};
-            map['file'] = file;
+            map['file'] = Filemedia;
             map['image']=value;
             map['question'] = questionController.text;
             map['answer'] = answer;
@@ -317,7 +317,8 @@ class ApiService extends ChangeNotifier {
           isloading = true;
             List list = [];
             Map<String,dynamic> map = {};
-            map['image']='';
+          map['file'] = Filemedia;
+          map['image']='';
             map['question'] = questionController.text;
             map['answer'] = answer;
             map['a']=aController.text;

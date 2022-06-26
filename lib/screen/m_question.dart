@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:expandable/expandable.dart';
@@ -14,9 +16,11 @@ import 'package:kurdivia_admin/screen/sponsor_details.dart';
 import 'package:kurdivia_admin/screen/user_details.dart';
 import 'package:kurdivia_admin/screen/usersandwinner.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 import '../Widgets/drawer.dart';
 import '../Widgets/my_dialog.dart';
+import '../Widgets/video_player_widget.dart';
 import '../constants.dart';
 import '../provider/ApiService.dart';
 import 'add_question.dart';
@@ -32,6 +36,9 @@ class ManageQuestion extends StatefulWidget {
 
 class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLogin {
   late BuildContext context;
+
+  late VideoPlayerController controller;
+
 
   @override
   Widget build(BuildContext context) {
@@ -261,6 +268,15 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                                       Timestamp date = snapshot
                                                                           .data!.docs[index]
                                                                           .get('date');
+                                                                      if(snapshot.data!.docs[index].get('file') == false){
+                                                                        controller = VideoPlayerController.network(snapshot.data!.docs[index].get('image'))
+                                                                          ..addListener(() {})
+                                                                          ..setLooping(false)
+                                                                          ..initialize().then((_) {
+                                                                            controller.pause();
+                                                                            value.notifyListeners();
+                                                                          });
+                                                                      }
                                                                       return Column(
                                                                         children: [
                                                                           Row(
@@ -444,27 +460,12 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                                                                   index]
                                                                                                       .get(
                                                                                                       'price'),
-                                                                                              style: const TextStyle(
-                                                                                                  fontWeight:
-                                                                                                  FontWeight
-                                                                                                      .bold)),
-                                                                                          (snapshot
-                                                                                              .data!
-                                                                                              .docs[
-                                                                                          index]
-                                                                                              .get(
-                                                                                              'image')
-                                                                                              .toString()
-                                                                                              .length >
-                                                                                              5)
-                                                                                              ? Image.network(snapshot
-                                                                                              .data!
-                                                                                              .docs[
-                                                                                          index]
-                                                                                              .get(
-                                                                                              'image'))
-                                                                                              : Image.asset(
-                                                                                              'assets/images/adap.png')
+                                                                                              style: const TextStyle(fontWeight: FontWeight.bold)),
+                                                                                          (snapshot.data!.docs[index].get('image').toString().length > 5)
+                                                                                          ?snapshot.data!.docs[index].get('file') == false
+                                                                                          ?Stack(children: [ClipRRect(borderRadius: BorderRadius.circular(15),child: VideoPlayerWidget(controller: controller))],)
+                                                                                              : Image.network(snapshot.data!.docs[index].get('image'))
+                                                                                              : Image.asset('assets/images/adap.png')
                                                                                         ],
                                                                                       ),
                                                                                     ),

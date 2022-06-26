@@ -6,9 +6,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kurdivia_admin/Model/user.dart';
 import 'package:kurdivia_admin/screen/user_details.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../Widgets/link_type.dart';
 import '../Widgets/question_form.dart';
+import '../Widgets/video_player_widget.dart';
 import '../constants.dart';
 import '../provider/ApiService.dart';
 import 'menu.dart';
@@ -27,6 +30,23 @@ class ManageSponsor extends StatefulWidget {
 class _ManageSponsorState extends State<ManageSponsor>
     implements ApiStatussave {
   late BuildContext context;
+  late VideoPlayerController controller;
+
+  final picker = ImagePicker();
+  VideoPlayerController? _videoPlayerController;
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+    controller.pause();
+    controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +194,10 @@ class _ManageSponsorState extends State<ManageSponsor>
                         .size
                         .width * 0.8,
                     child: Center(
-                      child: value.imagePath.isNotEmpty ? Stack(
+                      child: (value.imagePath.isNotEmpty )
+                          ? (value.mediaval == 'Video')
+                          ?Stack(children: [ClipRRect(borderRadius: BorderRadius.circular(15),child: VideoPlayerWidget(controller: controller))],)
+                        :Stack(
                         children: [
                           Image.file(File(value.imagePath)),
                           Positioned(
@@ -188,23 +211,42 @@ class _ManageSponsorState extends State<ManageSponsor>
                                   color: Colors.red,),)),
 
                         ],
-                      ) : IconButton(
+                      )
+                          :IconButton(
                         onPressed: () async {
                           {
-                            if (value.linkType == 'Video') {
-                              value.file = false;
-                              final pickedFile =
-                              await ImagePicker().pickImage(
-                                  source: ImageSource.gallery);
-                              if (pickedFile != null) {
-                                context.read<ApiService>().setImagePath(
-                                    pickedFile.path);
-                              }
+                            if (value.mediaval == 'Video' ) {
+                              value.Filemedia = false;
+                              // final pickedFile =
+                              // await ImagePicker().pickVideo(
+                              //     source: ImageSource.gallery);
+                              // if (pickedFile != null) {
+                              //   context.read<ApiService>().setImagePath(
+                              //       pickedFile.path);
+                              // }
+                              // PickedFile? pickedFile = await picker.getVideo(source: ImageSource.gallery);
+                              // _video = File(pickedFile!.path);
+                              // _videoPlayerController = VideoPlayerController.file(_video!)
+                              //   ..addListener(() => setState(() {}))
+                              //   ..setLooping(true)
+                              //   ..initialize().then((_) {
+                              //   setState(() { });
+                              //   _videoPlayerController!.play();
+                              // });
+                              final file = await pickVideoFile();
+                              if (file == null) return;
 
-                              print(pickedFile);
+                              value.imagePath = file.path;
+                              controller = VideoPlayerController.file(file)
+                                ..addListener(() => setState(() {}))
+                                ..setLooping(true)
+                                ..initialize().then((_) {
+                                  controller.play();
+                                  setState(() {});
+                                });
                             }
                             else if (value.mediaval == 'Image') {
-                              value.file = true;
+                              value.Filemedia = true;
                               final pickedFile =
                               await ImagePicker().pickImage(
                                   source: ImageSource.gallery);
@@ -220,9 +262,10 @@ class _ManageSponsorState extends State<ManageSponsor>
                             Icons.video_call_rounded) : const Icon(
                             Icons.add_a_photo_outlined), iconSize: 50,
                       ),
+
+                    ),
                     ),
 
-                  ),
                   //QuestionForm(context, 'media',''),
                   // Column(
                   //   children: [
@@ -322,7 +365,12 @@ class _ManageSponsorState extends State<ManageSponsor>
     ModeSnackBar.show(context, 'something go wrong', SnackBarMode.error);
   }
 
+  Future<File?> pickVideoFile() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.video);
+    if (result == null) return null;
 
+    return File(result.files.single.path!);
+  }
 
   Future pickDateTime(BuildContext context) async {
     final date = await pickDate(context);
