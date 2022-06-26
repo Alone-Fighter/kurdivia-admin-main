@@ -49,6 +49,7 @@ class _MenuState extends State<Menu> {
               //   kNavigator(context, ManageSponsor());
               // }),
               menuItem(context, 'Notification', () {
+
                 kNavigator(context, Notice());
               }),
 
