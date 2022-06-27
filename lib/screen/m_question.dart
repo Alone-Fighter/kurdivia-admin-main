@@ -140,7 +140,7 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                   children: [
                                                      Text((index+1).toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
                                                     Container(
-                                                      height: MediaQuery.of(context).size.height * 0.11,
+                                                      height: MediaQuery.of(context).size.height * 0.12,
                                                       width: MediaQuery.of(context).size.width * 0.8,
                                                       decoration: BoxDecoration(
                                                           color: Colors.grey.shade300,
@@ -464,7 +464,7 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                                                           (snapshot.data!.docs[index].get('image').toString().length > 5)
                                                                                           ?snapshot.data!.docs[index].get('file') == false
                                                                                           ?Stack(children: [ClipRRect(borderRadius: BorderRadius.circular(15),child: VideoPlayerWidget(controller: controller))],)
-                                                                                              : Image.network(snapshot.data!.docs[index].get('image'))
+                                                                                              : Image.network(snapshot.data!.docs[index].get('image'),height: 250,width: double.infinity,)
                                                                                               : Image.asset('assets/images/adap.png')
                                                                                         ],
                                                                                       ),

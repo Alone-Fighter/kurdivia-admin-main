@@ -186,6 +186,7 @@ class ApiService extends ChangeNotifier {
           snapshot.ref.getDownloadURL().then((value){
 
             Map<String,dynamic> map = {};
+            map['file'] = Filemedia;
             map['image']=value;
             map['title'] = titleController.text;
             map['description'] = descriptionController.text;
@@ -289,7 +290,6 @@ class ApiService extends ChangeNotifier {
           snapshot.ref.getDownloadURL().then((value) {
             List list = [];
             Map<String,dynamic> map = {};
-            map['file'] = Filemedia;
             map['image']=value;
             map['question'] = questionController.text;
             map['answer'] = answer;
@@ -317,7 +317,6 @@ class ApiService extends ChangeNotifier {
           isloading = true;
             List list = [];
             Map<String,dynamic> map = {};
-          map['file'] = Filemedia;
           map['image']='';
             map['question'] = questionController.text;
             map['answer'] = answer;
