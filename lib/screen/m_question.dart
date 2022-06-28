@@ -242,12 +242,12 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                   height: 10,
                                                 ),
                                                 ExpandablePanel(header:Container(padding: EdgeInsets.only(top: 10),child: Center(child: Text('Detail',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),))) ,collapsed: Text(''), expanded:
-                                                StreamBuilder<QuerySnapshot>(
-                                                  stream: context
+                                                FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                                                  future: context
                                                       .read<ApiService>()
-                                                      .getSponsorDetails(snapshot.data?.docs[index].id),
+                                                      .getSponsorDetails2(snapshot.data?.docs[index].id),
                                                   builder: (BuildContext context,
-                                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                                                     if (snapshot.hasData) {
                                                       return SingleChildScrollView(
                                                         child: Container(
@@ -270,11 +270,10 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                                           .get('date');
                                                                       if(snapshot.data!.docs[index].get('file') == false){
                                                                         controller = VideoPlayerController.network(snapshot.data!.docs[index].get('image'))
-                                                                          ..addListener(() {})
+                                                                          ..addListener(() => value.notifyListeners())
                                                                           ..setLooping(false)
                                                                           ..initialize().then((_) {
                                                                             controller.pause();
-                                                                            value.notifyListeners();
                                                                           });
                                                                       }
                                                                       return Column(

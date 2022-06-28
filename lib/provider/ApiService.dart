@@ -468,6 +468,9 @@ class ApiService extends ChangeNotifier {
   Stream<QuerySnapshot> getSponsorDetails(id) {
     return fs.collection('events').doc(id).collection('data').snapshots();
   }
+  Future<QuerySnapshot<Map<String, dynamic>>> getSponsorDetails2(id) {
+    return fs.collection('events').doc(id).collection('data').get();
+  }
   Stream<QuerySnapshot> getQuestionDetails(id) {
     return fs.collection('events').doc(id).collection('question').snapshots();
   }

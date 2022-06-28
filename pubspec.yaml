@@ -52,12 +52,19 @@ dependencies:
   delayed_display: ^2.0.0
   video_player: ^2.4.5
   file_picker: ^4.6.1
+  firebase_messaging: ^11.4.2
+  flutter_launcher_icons: ^0.9.3
+
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  image_path: "assets/images/logo.png"
+  android: true
+  ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
