@@ -205,6 +205,8 @@ class ApiService extends ChangeNotifier {
               'winner' : list,
             };
             fs.collection('events').doc(titleController.text+date.toString()).collection('data').doc().set(map).then((value) {
+              Map<String,dynamic> winner = {};
+              fs.collection('events').doc(titleController.text+date.toString()).collection('winner').add(winner);
               fs.collection('events').doc(titleController.text+date.toString()).set(map1).whenComplete(() {
                 isloading = false;
                 // kNavigator(context, ManageQuestion());
