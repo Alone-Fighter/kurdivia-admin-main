@@ -480,7 +480,12 @@ class ApiService extends ChangeNotifier {
   Stream<QuerySnapshot> getAllEvents() {
     return fs.collection('events').orderBy('date').snapshots();
   }
-  Future<DocumentSnapshot<Map<String, dynamic>>> getAllwinner(id){
+  Future<QuerySnapshot<Map<String, dynamic>>> getAllwinner(id){
+    return fs.collection('events').doc(id).collection('winner').orderBy('counter',descending:true).orderBy('time').get();
+    // return fs.collection('events').doc(id).get();
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getAllwinner2(id){
     return fs.collection('events').doc(id).get();
   }
 

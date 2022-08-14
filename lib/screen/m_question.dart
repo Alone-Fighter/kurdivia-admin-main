@@ -452,20 +452,13 @@ class _ManageQuestionState extends State<ManageQuestion> implements ApiStatusLog
                                                                                                   .get(
                                                                                                   'price'),
                                                                                           style: const TextStyle(fontWeight: FontWeight.bold)),
-                                                                                      Text(
-                                                                                          'media : ' +
-                                                                                              snapshot
-                                                                                                  .data!
-                                                                                                  .docs[
-                                                                                              index]
-                                                                                                  .get(
-                                                                                                  'image'),
-                                                                                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                                                                                      // (snapshot.data!.docs[index].get('image').toString().length > 5)
-                                                                                      // ?snapshot.data!.docs[index].get('file') == false
-                                                                                      // ?Stack(children: [ClipRRect(borderRadius: BorderRadius.circular(15),child: VideoPlayerWidget(controller: controller))],)
-                                                                                      //     : Image.network(snapshot.data!.docs[index].get('image'),height: 250,width: double.infinity,)
-                                                                                      //     : Image.asset('assets/images/adap.png')
+
+                                                                                      (snapshot.data!.docs[index].get('image').toString().length > 5)
+                                                                                      ?snapshot.data!.docs[index].get('file') == false
+                                                                                      ?  Text('media : ' + snapshot.data!.docs[index].get('image'),
+                                                                                            style: const TextStyle(fontWeight: FontWeight.bold))
+                                                                                          : Image.network(snapshot.data!.docs[index].get('image'),height: 250,width: double.infinity,)
+                                                                                          : Image.asset('assets/images/adap.png')
                                                                                     ],
                                                                                   ),
                                                                                 ),

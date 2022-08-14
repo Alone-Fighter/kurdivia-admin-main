@@ -40,22 +40,21 @@ class UsersAndWnner extends StatelessWidget implements ApiStatusLogin {
                   //   ),
                   //
                   // ),
-                  FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                       future: context.read<ApiService>().getAllwinner(id),
                       builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot<
-                              Map<String, dynamic>>> snapshot) {
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                         if (snapshot.hasData) {
-                          List list = snapshot.data!.get('winner');
+
                           return Container(
                             height: 200,
                             child: ListView.builder(
-                                itemCount: list.length,
+                                itemCount: snapshot.data!.size,
 
                                 itemBuilder: (context,index){
                                   return InkWell(
                                     onTap: (){
-                                      kNavigator(context, UserDetail(id: list[index]));
+                                      kNavigator(context, UserDetail(id: snapshot.data!.docs[index].id));
                                     },
                                     child: Container(
                                         margin: EdgeInsets.symmetric(vertical: 5),
@@ -68,7 +67,7 @@ class UsersAndWnner extends StatelessWidget implements ApiStatusLogin {
                                         decoration: BoxDecoration(
                                             color: kLightBlue,
                                             borderRadius: BorderRadius.circular(30)),
-                                        child: getwinnerdetail(list[index])),
+                                        child: getwinnerdetail(snapshot.data!.docs[index].id)),
                                   );
                                 }),
                           );
@@ -128,7 +127,7 @@ class UsersAndWnner extends StatelessWidget implements ApiStatusLogin {
                   //
                   // ),
                   FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                      future: context.read<ApiService>().getAllwinner(id),
+                      future: context.read<ApiService>().getAllwinner2(id),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot<
                               Map<String, dynamic>>> snapshot) {

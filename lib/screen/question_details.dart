@@ -219,7 +219,7 @@ class _QuestionDetailsState extends State<QuestionDetails>
                                                                           .docs[
                                                                               index]
                                                                           .get(
-                                                                              'image'))
+                                                                              'image'),fit: BoxFit.fill,width: double.infinity,height: 150,)
                                                                       : Image.asset(
                                                                           'assets/images/adap.png')
                                                                 ],
